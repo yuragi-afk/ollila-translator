@@ -356,6 +356,43 @@ def translate_ollila_to_jp(text):
 
     return " ".join(result)
 
+
+def translate_text_file():
+
+    input_file = input("入力txtファイル > ")
+
+    output_file = input("出力txtファイル > ")
+
+    try:
+
+        with open(input_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+
+    except FileNotFoundError:
+
+        print("ファイルが見つかりません")
+        return
+
+    results = []
+
+    for line in lines:
+
+        line = line.strip()
+
+        if not line:
+            continue
+
+        translated = translate_jp_to_ollila(line)
+
+        results.append(translated)
+
+    with open(output_file, "w", encoding="utf-8") as f:
+
+        for r in results:
+            f.write(r + "\n")
+
+    print(f"\n保存完了: {output_file}")
+
 # =========================================
 # CLI
 # =========================================
@@ -370,6 +407,7 @@ def main():
 
         print("\n1 : 日本語 → Ollila")
         print("2 : Ollila → 日本語")
+        print("3 : txt翻訳")
         print("0 : 終了")
 
         mode = input(">>> ")
@@ -399,6 +437,9 @@ def main():
 
             print("\n翻訳結果:")
             print(result)
+
+        elif mode == "3":
+           translate_text_file() 
 
         else:
 
